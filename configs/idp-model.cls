@@ -128,7 +128,7 @@ headheight=1.8cm]{geometry}
     \vspace*{2.0 cm}
         \AddToShipoutPicture*{
     \put(-3,0){
-    \includegraphics[width=\paperwidth,height=\paperheight]{configs/figuras/capa_tcc.png}
+    \includegraphics[width=\paperwidth,height=\paperheight]{configs/figuras/capa_tcc.pdf}
     }}
 {\Large\bf\expandafter\MakeUppercase\expandafter{\titulonome}}
 
@@ -269,7 +269,7 @@ headheight=1.8cm]{geometry}
  \vspace*{2.0 cm}
         \AddToShipoutPicture*{
     \put(-3,0){
-    \includegraphics[width=\paperwidth,height=\paperheight]{configs/figuras/capa_final.png}
+    \includegraphics[width=\paperwidth,height=\paperheight]{configs/figuras/capa_final.pdf}
     }}
 
 \clearpage
@@ -282,7 +282,7 @@ headheight=1.8cm]{geometry}
     \thispagestyle{empty}
     \AddToShipoutPicture*{
         \put(-3,0){
-        \includegraphics[width=\paperwidth,height=\paperheight]{configs/figuras/secoes_internas2.png}
+        \includegraphics[width=\paperwidth,height=\paperheight]{configs/figuras/capa_secoes.pdf}
     }}
     \color{white}
     \vspace*{\fill}
@@ -357,7 +357,7 @@ headheight=1.8cm]{geometry}
     \thispagestyle{empty}
     \AddToShipoutPicture*{
         \put(-3,0){
-            \includegraphics[width=\paperwidth,height=\paperheight]{configs/figuras/secoes_internas2.png}
+            \includegraphics[width=\paperwidth,height=\paperheight]{configs/figuras/capa_secoes.pdf}
         }
     }
      \color{white}
@@ -442,7 +442,7 @@ headheight=1.8cm]{geometry}
 \newcommand{\backgroundsumario}{%
     \AddToShipoutPictureBG*{%
         \put(0,0){%
-            \includegraphics[width=\paperwidth,height=\paperheight]{configs/figuras/secoes_internas2.png}%
+            \includegraphics[width=\paperwidth,height=\paperheight]{configs/figuras/capa_secoes.pdf}%
         }%
     }%
 }
@@ -486,7 +486,7 @@ headheight=1.8cm]{geometry}
     \thispagestyle{empty}
     \AddToShipoutPicture*{
         \put(-3,0){
-            \includegraphics[width=\paperwidth,height=\paperheight]{configs/figuras/secoes_internas2.png}
+            \includegraphics[width=\paperwidth,height=\paperheight]{configs/figuras/capa_secoes.pdf}
         }
     }
      \color{white}
