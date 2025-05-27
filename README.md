@@ -17,6 +17,7 @@ Este repositório contém um template LaTeX customizado para a elaboração do P
 No início do arquivo `main.tex`, preencha corretamente todos os **campos de metadados**, como:
 
 ```latex
+\cienciadacomputacao %ou \engenhariadesoftware
 \autor{Nome do Autor}
 \titulo{Título do Trabalho}
 \orientador{Nome do Orientador}

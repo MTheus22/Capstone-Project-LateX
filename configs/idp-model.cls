@@ -20,18 +20,11 @@ headheight=1.8cm]{geometry}
 \RequirePackage{titletoc}
 \RequirePackage{hyperref}
 \RequirePackage[most]{tcolorbox}
-
-
-
-
-
-% \RequirePackage[backend=biber,style=abnt]{biblatex}
-% \addbibresource{referencias.bib}
-
 \RequirePackage[alf]{abntex2cite} % Usa o estilo ABNT
 \bibliographystyle{abntex2-alf} % Estilo de bibliografia
 
-\RequirePackage[portuguese]{babel}
+
+\RequirePackage[english]{babel}
 
 \onehalfspacing
 
@@ -42,9 +35,19 @@ headheight=1.8cm]{geometry}
 \definecolor{fundo_idp}{HTML}{005DAA}
 \definecolor{titulos}{HTML}{00B3FF}
 
-\newcommand{\curso}[1]{\def\cursonome{#1}}
+\newcommand{\@nomecurso}{}
+% Comando para Ciência da Computação
+\newcommand{\cienciadacomputacao}{
+  \renewcommand{\@nomecurso}{Ciência da Computação}
+}
+
+% Comando para Engenharia de Software
+\newcommand{\engenhariadesoftware}{
+  \renewcommand{\@nomecurso}{Engenharia de Software}
+}
+
 \newcommand{\titulo}[1]{\def\titulonome{#1}}
-\newcommand{\aluno}[1]{\def\alunonome{#1}}
+\newcommand{\autor}[1]{\def\autornome{#1}}
 \newcommand{\ano}[1]{\def\anonome{#1}}
 
 \newcommand{\@nomeorientador}{}
@@ -55,6 +58,7 @@ headheight=1.8cm]{geometry}
 \newcommand{\orientadora}[1]{
 \renewcommand{\@nomeorientador}{#1}
 \orientadoratrue}
+
 
 \newcommand{\membrobancai}[2]{\def\@nomemembrobancai{#1}
 \def\@funcaomembrobancai{#2}}
@@ -123,7 +127,8 @@ headheight=1.8cm]{geometry}
     \vspace*{8.5 cm}
     \begin{flushleft}
     {\Large\expandafter\MakeUppercase\expandafter{Bacharelado em}}\\
-    {\huge\bf\expandafter\MakeUppercase\expandafter{\cursonome}}
+    \vspace*{0.2cm}
+    {\huge\bf\expandafter\MakeUppercase\expandafter{\@nomecurso}}
 
     \vspace*{2.0 cm}
         \AddToShipoutPicture*{
@@ -136,7 +141,7 @@ headheight=1.8cm]{geometry}
     \end{flushleft}
     \vspace*{6 cm}
     \begin{center}
-    {\Large\bf\expandafter\MakeUppercase\expandafter{\alunonome}}
+    {\Large\bf\expandafter\MakeUppercase\expandafter{\autornome}}
     \vfill
     {Brasília - DF, \anonome}
     
@@ -151,14 +156,15 @@ headheight=1.8cm]{geometry}
     \clearpage
     \thispagestyle{pretext}
     \begin{flushleft}
-        {\Large\bfseries\color{fundo_idp}\MakeUppercase\alunonome}
+        {\Large\bfseries\color{fundo_idp}\MakeUppercase\autornome}
 
         \vspace*{3cm}
         {\Large\color{fundo_idp}\MakeUppercase\titulonome}
 
         \vspace*{3cm}
+ 
+        \noindent{Trabalho de Conclusão de Curso apresentado como requisito parcial para a obtenção de grau de Bacharel em \@nomecurso, pelo Instituto Brasileiro de Ensino, Desenvolvimento e Pesquisa (IDP).}
 
-        {Trabalho de Conclusão de Curso apresentado como requisito parcial para a obtenção de grau de Bacharel em \cursonome, pelo Instituto Brasileiro de Ensino, Desenvolvimento e Pesquisa (IDP).}
 
         \vspace*{3cm}
 
@@ -176,15 +182,19 @@ headheight=1.8cm]{geometry}
 \newcommand{\folhaaprovacao}{
     \clearpage
     \thispagestyle{pretext}
-    \begin{flushleft}
-        {\Large\bfseries\color{fundo_idp}\MakeUppercase\alunonome}
+   \begin{flushleft}
+        {\Large\bfseries\color{fundo_idp}\MakeUppercase\autornome}
 
         \vspace*{3cm}
         {\Large\color{fundo_idp}\MakeUppercase\titulonome}
 
+    \end{flushleft}
         \vspace*{2cm}
- 
-        {Trabalho de Conclusão de Curso apresentado como requisito parcial para a obtenção de grau de Bacharel em \cursonome, pelo Instituto Brasileiro de Ensino, Desenvolvimento e Pesquisa (IDP).}
+
+       \noindent{Trabalho de Conclusão de Curso apresentado como requisito parcial para a obtenção de grau de Bacharel em \@nomecurso, pelo Instituto Brasileiro de Ensino, Desenvolvimento e Pesquisa (IDP).}
+
+
+    \begin{flushleft}
 
         \vspace*{2cm}
         {Aprovado em \@dataaprovacao}
@@ -365,13 +375,13 @@ headheight=1.8cm]{geometry}
     \vspace*{\fill}
     \begin{center}
 
-    {\fontsize{60}{0}\bfseries\MakeUppercase{Referências}}
+    {\fontsize{60}{0}\bfseries\MakeUppercase{References}}
     \end{center}
     \vspace*{\fill}
 
     \refstepcounter{secnum}
     \phantomsection
-    \addcontentsline{toc}{section}{Referências}
+    \addcontentsline{toc}{section}{References}
 
     \color{black}
     
@@ -386,7 +396,7 @@ headheight=1.8cm]{geometry}
 
 \addto\captionsportuguese{
   \renewcommand{\refname}{%
-    \color{titulos}\bfseries\MakeUppercase{Referências}
+    \color{titulos}\bfseries\MakeUppercase{References}
   }
 }
 
@@ -395,11 +405,21 @@ headheight=1.8cm]{geometry}
 \addto\captionsportuguese{%
   \renewcommand{\contentsname}{\color{white}\fontsize{40}{0}\bfseries\MakeUppercase{Sumário}}
 }
+\addto\captionsenglish{%
+  \renewcommand{\contentsname}{\color{white}\fontsize{40}{0}\bfseries\MakeUppercase{Contents}}
+}
+
 
 \addto\captionsportuguese{%
   \renewcommand{\listfigurename}{\color{white}\fontsize{40}{0}\bfseries\MakeUppercase{Lista de Figuras}}
   \renewcommand{\listtablename}{\color{white}\fontsize{40}{0}\bfseries\MakeUppercase{Lista de Tabelas}}
 }
+
+\addto\captionsenglish{%
+  \renewcommand{\listfigurename}{\color{white}\fontsize{40}{0}\bfseries\MakeUppercase{List of Figures}}
+  \renewcommand{\listtablename}{\color{white}\fontsize{40}{0}\bfseries\MakeUppercase{List of Tables}}
+}
+
 
 
 
@@ -439,43 +459,69 @@ headheight=1.8cm]{geometry}
   {} % Sem prefixo
   {\titlerule*[.5pc]{.}\contentspage} % Página
 
+
+
 \newcommand{\backgroundsumario}{%
-    \AddToShipoutPictureBG*{%
+    \AddToShipoutPictureBG{%
         \put(0,0){%
             \includegraphics[width=\paperwidth,height=\paperheight]{configs/figuras/capa_secoes.pdf}%
         }%
     }%
 }
 
-
+\newenvironment{sumariolistas}{%
+    \backgroundsumario
+    \pagestyle{empty}%
+}{%
+    \ClearShipoutPictureBG
+}
 
 \makeatletter
+% \renewcommand\tableofcontents{%
+%     \cleardoublepage
+%     \thispagestyle{empty} % Remove cabeçalhos e rodapés
+%     \backgroundsumario % Ativa o fundo apenas nesta página
+%     \section*{\contentsname} % Título do sumário
+%     \@starttoc{toc} % Conteúdo do sumário
+   
+%     \ClearShipoutPictureBG % Remove o fundo das páginas seguintes
+% }
+
 \renewcommand\tableofcontents{%
     \cleardoublepage
-    \backgroundsumario % Ativa o fundo apenas nesta página
-    \thispagestyle{empty} % Remove cabeçalhos e rodapés
-    \section*{\contentsname} % Título do sumário
-    \@starttoc{toc} % Conteúdo do sumário
-    \ClearShipoutPictureBG % Remove o fundo das páginas seguintes
+   \begingroup
+   \backgroundsumario
+   \pagestyle{empty}
+    \section*{\contentsname}
+    \@starttoc{toc}
+    \clearpage
+    \endgroup
+    \ClearShipoutPictureBG
 }
 \makeatother
 
 \makeatletter
 \renewcommand\listoffigures{%
     \cleardoublepage
-    \backgroundsumario
-    \thispagestyle{empty}
+   \begingroup
+   \backgroundsumario
+   \pagestyle{empty}
     \section*{\listfigurename}
     \@starttoc{lof}
+     \clearpage
+    \endgroup
     \ClearShipoutPictureBG
 }
 
 \renewcommand\listoftables{%
     \cleardoublepage
-    \backgroundsumario
-    \thispagestyle{empty}
+   \begingroup
+   \backgroundsumario
+   \pagestyle{empty}
     \section*{\listtablename}
     \@starttoc{lot}
+     \clearpage
+    \endgroup
     \ClearShipoutPictureBG
 }
 \makeatother
@@ -516,15 +562,14 @@ headheight=1.8cm]{geometry}
         \clearpage
         \stepcounter{apendicecount}%
         \ifnum\value{apendicecount}=1
-        \capaapendice{Apêndices}
+        \capaapendice{Appendices}
         \fi
         \phantomsection
-        \addcontentsline{toc}{subsection}{\MakeUppercase{\alph{apendicecount}}\quad #1}
-        \begin{flushleft}
-        {\color{fundo_idp}\Large\bfseries\MakeUppercase{Apêndice \alph{apendicecount}}} \\
-        \vspace*{1em}
-        {\color{fundo_idp}\Large\bfseries\MakeUppercase{#1}} \\
-        \end{flushleft}
+        \addcontentsline{toc}{subsection}{\MakeUppercase{\alph{apendicecount}}\hspace{1em} #1}
+        \begin{center}
+        {\color{fundo_idp}\Large{Appendix \MakeUppercase{\alph{apendicecount}} - {#1}}} 
+     
+        \end{center}
         
         \input{#2}
 }
@@ -539,15 +584,13 @@ headheight=1.8cm]{geometry}
         \clearpage
         \stepcounter{anexocount}%
         \ifnum\value{anexocount}=1
-        \capaapendice{Anexos}
+        \capaapendice{Annexes}
         \fi
         \phantomsection
-        \addcontentsline{toc}{subsection}{\MakeUppercase{\alph{anexocount}}\quad #1}
-        \begin{flushleft}
-        {\color{fundo_idp}\Large\bfseries\MakeUppercase{Anexo \alph{anexocount}}} \\
-        \vspace*{1em}
-        {\color{fundo_idp}\Large\bfseries\MakeUppercase{#1}} \\
-        \end{flushleft}
+        \addcontentsline{toc}{subsection}{\MakeUppercase{\alph{anexocount}}\hspace{1em} #1}
+        \begin{center}
+        {\color{fundo_idp}\Large{Annex \MakeUppercase{\alph{anexocount}}} - {#1}}
+        \end{center}
         
         \input{#2}
 }

@@ -1,22 +1,30 @@
 
 \documentclass{configs/idp-model}
+\input{pacotes/pacotes}
 
 
-\curso{Ciência da Computação}
+%PREENCHER TODOS OS CAMPOS ABAIXO
+\autor{Linus Torvalds}
+
+
+% Utilizar um dos dois cursos abaixo
+\cienciadacomputacao
+%\engenhariadesoftware
+
+
 \titulo{Um título muito interessante para um trabalho}
-\aluno{Linus Torvalds}
 \ano{2025}
 
 % Usar orientador ou orientadora
 \orientador{Dr. Alan Turing}
 %\orientadora{Dra. Ada Lovelace}
 
-%
+% Para membros da banca, deve-se por o nome no primeiro parâmentro e se é examinador interno ou externo no segundo parâmetro
 \membrobancai{Dr. Dom Quixote de la Mancha}{Examinador interno}
 \membrobancaii{Dra. Anna Karienina}{Examinadora Externa}
 
-\palavraschave{LaTeX, metodologia científica, trabalho de conclusão de curso}
-\keywords{{LaTeX, metodologia científica, trabalho de conclusão de curso}}
+\palavraschave{LaTeX, metodologia científica, trabalho de conclusão de curso, artigo, tecnologia}
+\keywords{{LaTeX, metodologia científica, trabalho de conclusão de curso, paper, technology}}
 
 \dataaprovacao{08/05/2025}
 
@@ -31,16 +39,19 @@
 \folhaaprovacao
 
 % Opcional
-\agradecimentos
 \dedicatoria
+\agradecimentos
 
 
 % Não alterar 
 % Resumo e abstract - alterar os arquivos na pasta "partes" NÃO ALTERAR O NOME DELES
-\resumo
 \abstract
-\listoftables
+\resumo
+
+%List of Figures e Tables são optativos. Caso não esteja utilizando no seu projeto, comentar as linhas abaixo
 \listoffigures
+\listoftables
+
 \tableofcontents
 \pagenumbering{arabic}
 
@@ -48,21 +59,20 @@
 % Para as seções, o comando \secao deve ter a forma \secao{título}{arquivo .tex}
 
 % Os comandos \subsecao e \subsubsecao seguem a forma \comando{Título}, sem a necessidade de passar um arquivo .tex
-\secao{Introducao}{partes/introducao}
-\secao{Metodologia}{partes/desenvolvimento}
-\secao{Conclusão}{partes/conclusao}
 
-
-
+\secao{Introduction}{partes/introduction}
+\secao{Literature Review}{partes/literature-review}
+\secao{Methodology}{partes/methodology}
+\secao{Results and Discussion}{partes/results}
+\secao{Conclusion}{partes/conclusion}
 
 % Não alterar
 \referencias
 
 % Opcionais
 \apendice{Título do apêndice A}{partes/apendicei}
-\apendice{Título do apêndice B}{partes/apenii}
-\anexo{Título do Anexo A}{partes/apendicei}
-\anexo{Título do Anexo B}{partes/apenii}
+
+\anexo{Título do Anexo A}{partes/anexoi}
 
 
 % Não alterar
