@@ -56,6 +56,20 @@ Os seguintes comandos foram definidos para facilitar a escrita do documento:
 
 Este projeto deve ser **compilado com XeLaTeX** para garantir compatibilidade com a fonte e os recursos utilizados.
 
+## Pré-requisitos
+
+* TeX Live: XeTeX and packages
+
+    * Nome do pacote: `texlive-xetex`
+
+    * Esse pacote permite a compilação utilizando o comando XeLaTeX.
+
+* Installer for Microsoft TrueType core fonts
+
+    * Nome do pacote: `ttf-mscorefonts-installer`
+
+    * Esse pacote contém as fontes padronizadas pelo IDP (Arial).
+
 ### Fonte utilizada: `Arial`
 
 ## 📄 Licença
