@@ -20,8 +20,9 @@ headheight=1.8cm]{geometry}
 \RequirePackage{titletoc}
 \RequirePackage{hyperref}
 \RequirePackage[most]{tcolorbox}
-\RequirePackage[alf]{abntex2cite} % Usa o estilo ABNT
-\bibliographystyle{abntex2-alf} % Estilo de bibliografia
+
+\RequirePackage{cite} % Pacote para formatação numérica padrão IEEE
+\bibliographystyle{IEEEtran} % Estilo de bibliografia IEEE
 
 
 \RequirePackage[english]{babel}
