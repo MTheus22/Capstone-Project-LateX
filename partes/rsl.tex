@@ -1,0 +1,112 @@
+% Este arquivo contém o conteúdo da seção de Revisão Sistemática da Literatura (Systematic Review).
+% Ele será incluído no arquivo principal usando \secao{Systematic Review}{partes/systematic_review}.
+
+This section outlines the methodology employed for the Systematic Literature Review (SLR) conducted to identify, evaluate, and synthesize pertinent studies concerning the parallelization and optimization of the Aho-Corasick algorithm. The review focuses on implementations targeting multi-core CPUs. The objective of this SLR is to support the development of the present research and to answer the formulated research questions.
+
+\subsecao{Research Questions}
+
+The following Research Questions (RQs) were formulated to guide the literature search, selection, and analysis process:
+\begin{enumerate}
+    \item \textbf{RQ1:} What parallelization techniques and associated challenges are documented in the literature for implementing the Aho-Corasick algorithm utilizing threads on multi-core CPUs?
+    \item \textbf{RQ2:} What specific optimizations for the Aho-Corasick algorithm are employed in application scenarios involving extensive pattern sets, particularly within domains of information security?
+\end{enumerate}
+
+\subsecao{Search Strategy and Study Selection Protocol}
+
+The search and selection protocol for identifying primary studies encompassed the definition of data sources, construction of search queries, and establishment of inclusion and exclusion criteria.
+
+\subsubsecao{Data Sources}
+As seguintes bases de dados científicas foram selecionadas devido à sua abrangência e relevância na área de Ciência da Computação e Engenharia de Software:
+\begin{itemize}
+    \item Web of Science (WoS)
+    \item Scopus
+    \item ACM Digital Library (ACM DL)
+    \item IEEE Xplore
+\end{itemize}
+
+\subsubsecao{Search Queries}
+
+Two primary search strings were constructed to address the aspects of parallelization (RQ1) and optimization/application (RQ2) pertinent to the Aho-Corasick algorithm. The literature search was executed in May 2025.
+\begin{itemize}
+    \item \textbf{String 1 (Focus on Parallelization):} \texttt{"Aho-Corasick" AND (parallel* OR multithread* OR multi-thread* OR thread* OR concurren* OR hpc OR high-perform* OR high perform*) AND ("multi-core" OR multicore OR "many-core" OR CPU) NOT "distributed systems")}
+    \item \textbf{String 2 (Focus on Optimization and Applications):} \texttt{"Aho-Corasick" AND (optimi* OR accelerat* OR perform* OR evaluat* OR improve*) AND (“application” OR “implementation” OR “use case”))}
+\end{itemize}
+
+\subsubsecao{Inclusion (IC) and Exclusion (EC) Criteria}
+
+The subsequent criteria were established for the selection of primary studies:
+
+\textbf{Inclusion Criteria (IC):}
+\begin{itemize}
+    \item \textbf{IC1 (Primary Focus):} The study addresses the Aho-Corasick (AC) algorithm or presents parallelization/optimization techniques demonstrably applicable to AC.
+    \item \textbf{IC2 (Parallelism Aspect):} The study investigates, proposes, implements, analyzes, or explicitly discusses the parallelization or concurrent execution of the Aho-Corasick algorithm.
+    \item \textbf{IC3 (Target Platform):} The study reports empirical results or analyses about multi-core CPU platforms.
+    \item \textbf{IC4 (RQ Relevance):} The study provides information relevant to addressing at least one RQ.
+    \item \textbf{IC6 (Language):} Published in English or Portuguese.
+    \item \textbf{IC7 (Accessibility):} Full-text availability of the study.
+    \item \textbf{IC8 (Publication Window):} Published between January 2015 and May 2025, inclusive.
+\end{itemize}
+
+\textbf{Exclusion Criteria (EC):}
+\begin{itemize}
+    \item \textbf{EC1 (Irrelevant Focus):} Studies with only superficial mentions of the Aho-Corasick algorithm or pattern matching, lacking a primary focus on its parallelization or optimization.
+    \item \textbf{EC2 (Non-CPU Platform Exclusivity):} Studies exclusively focused on non-CPU platforms (e.g., GPU, FPGA) without analysis or insights transferable to multi-core CPU environments.
+    \item \textbf{EC4 (Insufficient Detail):} Studies lacking sufficient detail regarding methodology, implementation, or reported results.
+    \item \textbf{EC5 (Publication Type):} Opinion pieces, editorials, and non-peer-reviewed gray literature.
+    \item \textbf{EC6 (Language Barrier):} Publications in languages other than English or Portuguese.
+    \item \textbf{EC7 (Duplication):} Duplicate publications (the most comprehensive or recent version was retained).
+    \item \textbf{EC8 (Inaccessibility):} Full-text unobtainable.
+\end{itemize}
+
+\subsubsecao{Selection Process and Initial Search Outcomes}
+
+The study selection was a multi-stage process. Initially, the constructed search strings were executed against the selected digital libraries. The retrieved results were subsequently refined using filters provided by each database (e.g., publication period, document type, language, subject area), as detailed below:
+\begin{itemize}
+    \item \textbf{ACM Digital Library:}
+    String 1 yielded 122 articles, reduced to 29 following filter application \\
+    String 2 yielded 274 articles, reduced to 66 following filter application \\
+    Filters applied:
+    Publication years: 2015-2025;
+    Document type: Research Article;
+    Publisher: ACM;
+    Title exclusion: GPU;
+    Language: English.
+    \item \textbf{Web of Science:}
+    String 1 yielded 30 articles, reduced to 6 after filter application \\
+    String 2 yielded 66 articles, reduced to 20 after filter application. \\
+    Filters applied:
+    Publication years: 2015-2025;
+    WoS Categories: Computer Science (excluding Artificial Intelligence);
+    Title exclusion: GPU;
+    Language: English.
+    \item \textbf{Scopus:}
+    String 1 yielded 34 articles, reduced to 6 following filter application \\
+    String 2 yielded 145 articles, reduced to 49 following filter application \\
+    Filters applied:
+    Publication years: 2015-2025
+    Language: English
+    Subject areas: Computer Science, Engineering;
+    Document types: Article, Conference Paper;
+    Title exclusion: GPU.
+    \item \textbf{IEEE Xplore:}
+    String 1 yielded 25 articles, reduced to 2 following filter application \\
+    String 2 yielded 60 articles, reduced to 18 following filter application \\
+    Filters applied:
+    Publication years: 2015-2025;
+    Title exclusion: GPU;
+    Language: English.
+\end{itemize}
+
+Following the initial database search and filtering stage, the resultant sets of candidate articles were aggregated.
+
+The filtered outputs from each database and search query were subsequently merged, and duplicate entries were eliminated. Thereafter, a title and abstract screening was performed on the unique articles, and the established inclusion and exclusion criteria were applied. The articles that passed this screening phase (30) proceeded to a full-text review for a conclusive evaluation against the IC/EC. This procedure yielded a selection of Y primary studies designated for comprehensive analysis.
+
+At the end of the selection process, Z studies were considered relevant and included in this systematic review.
+
+\subsecao{Analysis and Synthesis from Selected Studies}
+The ‘Z’ selected primary studies were critically analyzed in order to extract relevant information to answer the research questions.
+
+\subsubsecao{Analysis related to RQ1: Techniques and Challenges in Parallelizing Aho-Corasick on Multicore CPUs}
+The reviewed literature indicates that the Aho-Corasick algorithm, despite its efficiency in sequential implementations for multiple pattern matching, especially in applications such as Network Intrusion Detection Systems (NIDS)...(to be continue)
+
+% Fim do conteúdo da seção de Revisão Sistemática.

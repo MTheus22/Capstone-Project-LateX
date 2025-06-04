@@ -1,0 +1,133 @@
+% Este arquivo conterá a seção de Fundamentação Teórica ou parte dela.
+% A subseção "Paralelismo em Computação" começa aqui.
+
+\subsecao{Paralelismo em Computação}
+
+BBBBBBB dvancements in semiconductor technology have historically driven computational power growth. For decades, the performance of single-core processors followed the trend predicted by Moore's Law, which forecast the doubling of transistors on a chip every eighteen months. However, in the mid-2000s, the hardware industry encountered significant physical barriers, such as excessive power consumption and challenges in heat dissipation, which limited the increase in processor clock frequency. The response to these technological limitations was a change in processor design: instead of focusing on making a single core faster, the emphasis shifted to integrating multiple processing cores onto a single chip. Thus emerged multi-core processors, which became the dominant architecture in modern computers. This transition opened up new possibilities for performance enhancement; however, to take advantage of the performance gains offered by multi-core processors, programs must be intentionally developed or adapted to execute tasks in parallel. \cite{Pacheco2011}.
+
+\subsubsecao{Fundamentals of Parallelism}
+
+Parallelism in computing refers to the simultaneous execution of multiple tasks or parts of the same task, with the primary goal of reducing a program's total execution time. It is crucial to distinguish parallelism from concurrency. Concurrency occurs when multiple tasks are in progress at a given time, but may not be executing simultaneously. A single-core system can exhibit concurrency by rapidly switching between the execution of different tasks, simulating parallelism through preemption. True parallelism, on the other hand, requires hardware with multiple processing units. \cite{Butenhof1997}.
+
+\subsubsecao{Parallel Computing Architectures}
+
+Parallel computer architectures are classified according to various criteria. A prominent taxonomy, proposed by Flynn, categorizes these architectures based on instruction and data streams \cite{Flynn1966}:
+\begin{itemize}
+    \item \textbf{SISD (Single Instruction, Single Data)}: Represents a conventional single-processor architecture, where a single instruction operates on a single data stream.
+    \item \textbf{SIMD (Single Instruction, Multiple Data)}: Involves multiple processing units that execute the same instruction concurrently on different data elements.
+    \item \textbf{MISD (Multiple Instruction, Single Data)}: Characterizes systems where multiple processing units apply distinct instructions on the same data stream.
+    \item \textbf{MIMD (Multiple Instruction, Multiple Data)}:  Involves multiple processing units that execute distinct instructions on distinct data streams independently. This paradigm is directly related to multi-core architectures.
+\end{itemize}
+
+Within the MIMD category, systems are further distinguished based on their memory organization \cite{Pacheco2011}:
+\begin{itemize}
+    \item \textbf{Shared-Memory Systems}: In these systems, multiple processors share a physical memory address space. Inter-processor communication (IPC) is typically achieved by reading from and writing to shared variables in memory or through message passing mechanisms. Multi-core processors are the most common and widely available example of this architecture, where all cores on a chip share access to main memory.
+    \item \textbf{Distributed-Memory Systems}: Each processor in these systems possesses their own locally accessible memory, and communication between processors is usually done by exchanging messages across an interconnection network. Computer clusters are examples of this architectural model.
+\end{itemize}
+
+The present work focuses on the acceleration of algorithms in environments with multi-core processors, which fall into the shared memory MIMD category. A multi-core processor (MCP) is a single chip that contains two or more central processing units (CPUs) called ‘cores’. Each of these cores is capable of reading and executing program instructions independently, essentially functioning as a complete processor.
+
+\subsubsecao{Parallel Programming With Threads}
+
+Within shared-memory systems, such as multi-core processors, software-level parallelism is commonly achieved through the execution of multiple threads within a single process.
+
+\textbf{Processes vs. Threads}
+
+A process is an instance of an executing program, an entity possessing its own dedicated virtual address space, file descriptors, environment variables, and other Operating System (OS) resources, all isolated from other processes \cite{Pacheco2011}.
+
+A thread, on the other hand, is a lighter unit of execution started by a process. The same process can control, concurrently or in parallel, multiple threads. A key characteristic is that all threads within a process share its virtual address space, which encompasses executable code, global data, and the heap segment. However, each thread maintains its private resources, which are essential for its independent execution context:
+\begin{itemize}
+    \item A unique identifier (thread ID).
+    \item A set of CPU registers, including the program counter (PC).
+    \item A separate execution stack, used for local variables and function call control.
+    \item Thread-specific state, such as signal masking and scheduling priority.
+\end{itemize}
+
+\textbf{POSIX Thread Model (Pthreads)}
+
+The POSIX Thread Model, commonly referred to as “Pthreads”, is a standard that defines an application programming interface (API) for thread creation and management, as specified by IEEE Std 1003.1c-1995. Pthreads provides a portable suite of data types, functions, and constants that allows developers to create multithreaded applications that are compilable and executable across diverse POSIX-compliant operating systems (e.g., Linux, macOS, and various Unix variants). The Pthreads API provides functionality for managing the thread lifecycle—including creation, termination, and joining—and, critically, incorporates synchronization primitives. These primitives, such as mutexes and condition variables, are indispensable for orchestrating access to shared resources within shared-memory environments \cite{Butenhof1997, Pacheco2011}.
+
+\subsubsecao{Parallel Performance Evaluation Metrics}
+
+Performance evaluation is fundamental to understanding the effectiveness of a parallel program. The following metrics compare the execution time of the parallel program with its equivalent sequential counterpart \cite{Grama2003}.
+
+\textbf{Execution Time and Overhead}
+
+The performance of a program is measured by its execution time. For parallel programs, the following terms are defined:
+\begin{itemize}
+    \item \textbf{Ts}: The execution time of the fastest known sequential algorithm for a given problem, executed on a single processor unit.
+    \item \textbf{Tp}: The execution time of the parallel program utilizing p processors.
+\end{itemize}
+
+Ideally, \texttt{Tp} is expected to be substantially less than \texttt{Ts}. However, parallel execution introduces \textit{overhead}. This encompasses the time spent by processors on tasks that do not directly contribute to problem resolution, including communication, synchronization, load balance, and other computations inherent to the parallel implementation.
+
+\textbf{Speedup}
+
+Speedup (\texttt{S}) measures the performance gain achieved through parallel execution relative to sequential execution and it if referenced as equation 1. It is defined as the ratio of sequential execution time to parallel execution time:
+\[ S = \frac{T_s}{T_p} \]
+An ideal, or linear, speedup would be \texttt{S = p}. Amdahl's Law, establishes a theoretical upper bound on the speedup achievable by parallelizing a program with a fixed problem size. \texttt{s} represents the fraction of a program's sequential execution time that is inherently serial (non-parallelizable), and \texttt{f} is the parallelizable fraction (\texttt{s + f = 1}), the maximum speedup on \texttt{p} processors is given by:
+\[ S \leq \frac{1}{s + f/p} \]
+In the limit, as the number of processors (\texttt{p}) tends to infinity, the maximum speedup is bounded by \texttt{1/s}. This implies that even a small sequential fraction (\texttt{s} large) can severely limit the total speedup, regardless of the number of processors available. A complementary perspective is offered by the Gustafson-Barsis Law. This law argues that, that a speedup approximately linear
+\[ S_{\text{escalado}} = s + (1-s) \cdot p \]
+is achievable for problems that se beneficiam desta escalabilidade. This formulation suggests that for problems that can be scaled, it is possible to obtain speedup approximately linear with the number of processors, even in the presence of a serial fraction. Both Amdahl's and Gustafson's laws are important for understanding the limits and potential of parallelism in different scenarios.
+
+\textbf{Efficiency}
+
+Efficiency (\texttt{E}) measures the effectiveness of processor utilization in a parallel program. It is defined as the ratio of speedup to the number of processors \texttt{p}:
+\[ E = \frac{S}{p} = \frac{T_s}{p \cdot T_p} \]
+Efficiency values range between 0 and 1 (inclusive), often expressed as a percentage (0\% to 100\%). An efficiency of 1 (or 100\%) signifies ideal, linear speedup, implying that all processors are contributing productively throughout the execution. In practice, efficiency typically diminishes as the processor count increases, primarily due to the escalating impact of parallel overhead.
+
+\textbf{Scalability}
+
+Scalability, in the context of a parallel program and its underlying architecture, denotes its capacity to sustain performance (often measured by efficiency) as the number of processors and/or the problem size increases.
+
+\textbf{Strong Scalability}: Measures how execution time varies with an increasing number of processors for a fixed total problem size. The objective is to maintain relatively constant efficiency as \texttt{p} increases for a fixed \texttt{W}. Amdahl's Law is particularly relevant to this scenario.
+
+\textbf{Weak Scalability}: Evaluates performance as both the number of processors \texttt{p} and the total problem size \texttt{W} increase, such that the problem size per processor \texttt{W/p} remains constant. The goal is to maintain efficiency as \texttt{p} and \texttt{W} scale proportionally. Gustafson's Law is most pertinent in this context.
+
+A system is considered scalable if the efficiency remains above a certain reasonable limit as the platform (number of processors) and the problem grow.
+
+% Fim do conteúdo sobre Métricas de Avaliação de Desempenho Paralelo.
+
+% Fim da subseção "Paralelismo em Computação".
+
+% ... (Conteúdo da subseção "Paralelismo em Computação" termina aqui) ...
+
+\subsecao{Tries (Prefix Trees)}
+
+This section introduces the Trie data structure, its fundamental characteristics, operations, performance aspects, and its relevance as a foundational component for advanced string processing algorithms like Aho-Corasick.
+
+\subsubsecao{Definition and Basic Structure}
+
+A Trie, also known as a prefix tree or digital tree, is a specialized tree-based data structure optimized for the efficient storage and retrieval of a dynamic set of strings \cite{Knuth1998, SedgewickWayne2011}. Edward Fredkin coined the term "trie" in 1960, highlighting its utility in information retrieval tasks \cite{Fredkin1960, Knuth1998}.
+
+In a trie, strings are stored by organizing nodes to represent common prefixes. Each node typically contains an array of links (or child pointers), with one link for each possible character in the defined alphabet (forming an R-way trie, where R is the alphabet size). An edge connecting a parent node to a child node implicitly represents a character. Consequently, a path from the root node to any other node corresponds to a unique prefix. A special marker or an associated non-null value within a node indicates that the path leading to that node forms a complete key (or word) stored in the set \cite{SedgewickWayne2011, Fredkin1960}.
+
+\subsubsecao{Core Operations}
+
+The primary operations performed on a trie include insertion, search, and deletion.
+\begin{itemize}
+    \item \textbf{Search}: To search for a key, one traverses the trie from the root, following the sequence of links that correspond to the key's characters. The search succeeds if a path exists for the entire key and the terminal node is marked as representing a complete word. If a null link is encountered during traversal, or if the terminal node is not appropriately marked, the key is not present in the trie \cite{Knuth1998, SedgewickWayne2011}.
+    \item \textbf{Insertion}: Insertion follows a similar traversal logic based on the key's characters. If the path for the key does not fully exist, the process creates new nodes as required. The node corresponding to the final character of the key is then marked (e.g., by storing an associated value) to signify a complete word \cite{SedgewickWayne2011}.
+    \item \textbf{Deletion}: Deletion involves locating the key and then removing its end-of-word marker. If this node becomes redundant (i.e., it is no longer part of other keys and has no children), it, and potentially its ancestors, can be removed if they also become redundant \cite{Fredkin1960, SedgewickWayne2011}.
+\end{itemize}
+
+\subsubsecao{Advantages and Performance Characteristics}
+
+Tries offer significant advantages for string-based operations.
+
+\textbf{Time Complexity}: A key benefit is the time complexity for search and insertion operations. These operations are proportional to the length of the key (L), irrespective of the total number of keys (N) stored in the trie. Specifically, a successful search or an insertion typically involves O(L) character comparisons or node accesses \cite{SedgewickWayne2011}. This characteristic makes tries exceptionally efficient for prefix-based searches (e.g., finding all keys with a given prefix) and for applications where search time should not degrade significantly as the dataset grows.
+
+\textbf{Prefix Sharing}: Because common prefixes are shared among multiple keys by utilizing the same path from the root, tries can achieve space savings if the stored strings exhibit a high degree of prefix overlap \cite{Fredkin1960}.
+
+\subsubsecao{Space Complexity Considerations}
+
+Despite their advantages, tries present certain disadvantages and considerations, primarily concerning space complexity.
+
+In a standard R-way trie, each node might allocate space for R links. If the alphabet size R is large (e.g., for Unicode) and the set of keys does not result in dense branching (i.e., many nodes have few children), a significant amount of memory can be consumed by null links, leading to a sparse trie \cite{Knuth1998, SedgewickWayne2011}. Naive implementations can lead to a worst-case space complexity proportional to N * L * R. However, in practice, for random keys, the space complexity is often closer to N * L, especially if only non-null links are considered or if compact representations are employed \cite{Knuth1998, SedgewickWayne2011}.
+
+\subsubsecao{Foundational Role in String Processing}
+
+The trie data structure serves as a foundational component for more complex string processing algorithms. Notably, the Aho-Corasick algorithm, designed for the efficient simultaneous matching of multiple patterns within a text, utilizes a trie as its initial structural basis. This trie, which represents the dictionary of patterns, is subsequently augmented with "failure links" to create a finite automaton capable of processing text in linear time relative to the text's length \cite{AhoCorasick1975}. Therefore, a solid understanding of trie properties is a prerequisite for exploring the Aho-Corasick algorithm.
+
+% Fim da subseção "Tries".
