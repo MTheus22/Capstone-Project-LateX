@@ -3,7 +3,7 @@
 
 \subsecao{Paralelismo em Computação}
 
-BBBBBBB dvancements in semiconductor technology have historically driven computational power growth. For decades, the performance of single-core processors followed the trend predicted by Moore's Law, which forecast the doubling of transistors on a chip every eighteen months. However, in the mid-2000s, the hardware industry encountered significant physical barriers, such as excessive power consumption and challenges in heat dissipation, which limited the increase in processor clock frequency. The response to these technological limitations was a change in processor design: instead of focusing on making a single core faster, the emphasis shifted to integrating multiple processing cores onto a single chip. Thus emerged multi-core processors, which became the dominant architecture in modern computers. This transition opened up new possibilities for performance enhancement; however, to take advantage of the performance gains offered by multi-core processors, programs must be intentionally developed or adapted to execute tasks in parallel. \cite{Pacheco2011}.
+CCCCCCCCCCCC Advancements in semiconductor technology have historically driven computational power growth. For decades, the performance of single-core processors followed the trend predicted by Moore's Law, which forecast the doubling of transistors on a chip every eighteen months. However, in the mid-2000s, the hardware industry encountered significant physical barriers, such as excessive power consumption and challenges in heat dissipation, which limited the increase in processor clock frequency. The response to these technological limitations was a change in processor design: instead of focusing on making a single core faster, the emphasis shifted to integrating multiple processing cores onto a single chip. Thus emerged multi-core processors, which became the dominant architecture in modern computers. This transition opened up new possibilities for performance enhancement; however, to take advantage of the performance gains offered by multi-core processors, programs must be intentionally developed or adapted to execute tasks in parallel. \cite{Pacheco2011}.
 
 \subsubsecao{Fundamentals of Parallelism}
 
@@ -93,41 +93,47 @@ A system is considered scalable if the efficiency remains above a certain reason
 
 % ... (Conteúdo da subseção "Paralelismo em Computação" termina aqui) ...
 
+% Conteúdo da subseção "Tries (Prefix Trees)"
+
 \subsecao{Tries (Prefix Trees)}
 
-This section introduces the Trie data structure, its fundamental characteristics, operations, performance aspects, and its relevance as a foundational component for advanced string processing algorithms like Aho-Corasick.
+This section elucidates the Trie data structure, detailing its defining properties, core operational mechanics, performance aspects, and its significance as a foundational element in advanced string processing algorithms, particularly the Aho-Corasick algorithm.
 
 \subsubsecao{Definition and Basic Structure}
 
-A Trie, also known as a prefix tree or digital tree, is a specialized tree-based data structure optimized for the efficient storage and retrieval of a dynamic set of strings \cite{Knuth1998, SedgewickWayne2011}. Edward Fredkin coined the term "trie" in 1960, highlighting its utility in information retrieval tasks \cite{Fredkin1960, Knuth1998}.
+A Trie---also known as a prefix tree---is a specialized tree-like data structure optimized for the efficient storage and retrieval of a dynamic set of strings. Edward Fredkin introduced the term "trie" in 1960, highlighting its primary application in information retrieval \cite{Fredkin1960, Knuth1998}.
 
-In a trie, strings are stored by organizing nodes to represent common prefixes. Each node typically contains an array of links (or child pointers), with one link for each possible character in the defined alphabet (forming an R-way trie, where R is the alphabet size). An edge connecting a parent node to a child node implicitly represents a character. Consequently, a path from the root node to any other node corresponds to a unique prefix. A special marker or an associated non-null value within a node indicates that the path leading to that node forms a complete key (or word) stored in the set \cite{SedgewickWayne2011, Fredkin1960}.
+Tries store strings by organizing nodes so that each path from the root to a node represents a unique prefix. In a standard R-way trie, each node can branch to R children, where R denotes the size of the character alphabet. The existence of a parent-child edge highlights two key aspects of tries:
+\begin{itemize}
+    \item The edge's position (index) within the parent node's array of R possible child links directly corresponds to a unique character in the alphabet. For instance, index 0 might correspond to 'a', index 1 to 'b', and so on, according to a predefined mapping.
+    \item The character associated with this edge extends the prefix represented by the parent; this implies that at least one word (or key) in the trie contains this character sequence.
+\end{itemize}
+To signify that such a prefix also constitutes a complete key present in the trie, the node reached at the end of this path is typically marked by storing an associated non-null value or a boolean flag. The characters themselves are implicitly encoded by the trie's structure rather than being explicitly stored within each node.
 
 \subsubsecao{Core Operations}
 
-The primary operations performed on a trie include insertion, search, and deletion.
-\begin{itemize}
-    \item \textbf{Search}: To search for a key, one traverses the trie from the root, following the sequence of links that correspond to the key's characters. The search succeeds if a path exists for the entire key and the terminal node is marked as representing a complete word. If a null link is encountered during traversal, or if the terminal node is not appropriately marked, the key is not present in the trie \cite{Knuth1998, SedgewickWayne2011}.
-    \item \textbf{Insertion}: Insertion follows a similar traversal logic based on the key's characters. If the path for the key does not fully exist, the process creates new nodes as required. The node corresponding to the final character of the key is then marked (e.g., by storing an associated value) to signify a complete word \cite{SedgewickWayne2011}.
-    \item \textbf{Deletion}: Deletion involves locating the key and then removing its end-of-word marker. If this node becomes redundant (i.e., it is no longer part of other keys and has no children), it, and potentially its ancestors, can be removed if they also become redundant \cite{Fredkin1960, SedgewickWayne2011}.
-\end{itemize}
+Tries support several primary operations, including search, insertion, and deletion \cite{SedgewickWayne2011}.
+
+\textbf{Search}: Locating a key involves traversing the trie starting from the root, following the successive characters of the target key. Each character dictates which child link to follow. The search operation succeeds if a complete path corresponding to all characters of the key exists and the node reached at the end of this path is appropriately marked as representing a complete key. The search fails if, at any point, a required link is null (i.e., no path for the current character exists) or if the path is fully traversed but the final node is not marked as a complete key.
+
+\textbf{Insertion}: The insertion process begins similarly to a search, by traversing the trie according to the characters of the key to be added. If the path for the key does not extend to its full length (i.e., a null link is encountered), new nodes are created and linked to form the remainder of the path. The node corresponding to the final character of the inserted key is then marked to indicate that it is a complete key in the set.
+
+\textbf{Deletion}: Deleting a key first involves locating the node corresponding to the key's final character and removing its end-of-word marker. If there are no child links (meaning it is not a prefix for any other key), it can be deleted. This deletion may proceed recursively: when a child node is removed, if its parent has no other children and the parent node is not marking a key, the parent node becomes redundant and can be deleted. This process continues up to the root as long as parent nodes become redundant.
 
 \subsubsecao{Advantages and Performance Characteristics}
 
-Tries offer significant advantages for string-based operations.
+Tries provide distinct advantages for operations on string collections.
 
-\textbf{Time Complexity}: A key benefit is the time complexity for search and insertion operations. These operations are proportional to the length of the key (L), irrespective of the total number of keys (N) stored in the trie. Specifically, a successful search or an insertion typically involves O(L) character comparisons or node accesses \cite{SedgewickWayne2011}. This characteristic makes tries exceptionally efficient for prefix-based searches (e.g., finding all keys with a given prefix) and for applications where search time should not degrade significantly as the dataset grows.
+\textbf{Time Complexity}: A primary advantage is that the time required for search and insertion operations depends primarily on the length of the key (L), not on the total number (N) of keys stored. Specifically, these operations typically require examining a number of nodes proportional to L. Sedgewick \& Wayne (2011) state that the number of array accesses (node visits) is at most L+1 \cite{SedgewickWayne2011}. This O(L) performance makes tries highly efficient for prefix-based searches (e.g., retrieving all keys starting with a given prefix) and ensures that search performance does not substantially degrade as the dataset size increases.
 
-\textbf{Prefix Sharing}: Because common prefixes are shared among multiple keys by utilizing the same path from the root, tries can achieve space savings if the stored strings exhibit a high degree of prefix overlap \cite{Fredkin1960}.
+\textbf{Prefix Sharing}: When stored strings share common prefixes, tries inherently exploit this by having those strings share the initial path from the root. This sharing can lead to significant space savings compared to storing each string independently, particularly if there is substantial prefix overlap among keys \cite{Fredkin1960}.
 
 \subsubsecao{Space Complexity Considerations}
 
-Despite their advantages, tries present certain disadvantages and considerations, primarily concerning space complexity.
-
-In a standard R-way trie, each node might allocate space for R links. If the alphabet size R is large (e.g., for Unicode) and the set of keys does not result in dense branching (i.e., many nodes have few children), a significant amount of memory can be consumed by null links, leading to a sparse trie \cite{Knuth1998, SedgewickWayne2011}. Naive implementations can lead to a worst-case space complexity proportional to N * L * R. However, in practice, for random keys, the space complexity is often closer to N * L, especially if only non-null links are considered or if compact representations are employed \cite{Knuth1998, SedgewickWayne2011}.
+While prefix sharing can save space, the overall space complexity of R-way tries requires careful consideration. Each node in an R-way trie conceptually provides R potential links. If the alphabet size R is large (e.g., for Unicode) and the actual branching factor at most nodes is low (a sparse trie), allocating space for all R links per node can lead to considerable memory consumption due to numerous unused (null) links \cite{Knuth1998, SedgewickWayne2011}.
 
 \subsubsecao{Foundational Role in String Processing}
 
-The trie data structure serves as a foundational component for more complex string processing algorithms. Notably, the Aho-Corasick algorithm, designed for the efficient simultaneous matching of multiple patterns within a text, utilizes a trie as its initial structural basis. This trie, which represents the dictionary of patterns, is subsequently augmented with "failure links" to create a finite automaton capable of processing text in linear time relative to the text's length \cite{AhoCorasick1975}. Therefore, a solid understanding of trie properties is a prerequisite for exploring the Aho-Corasick algorithm.
+The trie data structure is a cornerstone for numerous advanced string processing algorithms. Critically for this work, the Aho-Corasick algorithm, engineered for the efficient, simultaneous matching of multiple patterns within a text, employs a trie---constructed from the set of patterns (the dictionary)---as its initial structural framework. This pattern trie is subsequently augmented with specialized "failure links" to form a finite automaton, enabling text processing in time linear to the text's length \cite{AhoCorasick1975}. A thorough grasp of trie principles is thus indispensable for developing and analyzing the Aho-Corasick algorithm.
 
 % Fim da subseção "Tries".

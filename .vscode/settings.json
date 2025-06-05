@@ -10,8 +10,7 @@
         "-bibtex",               // chama bibtex
         "-synctex=1",            // gera .synctex.gz
         "-interaction=nonstopmode",
-        "-file-line-error",
-        "-outdir=build",         // gera tudo em ./build
+        "-file-line-error",        // gera tudo em ./build
         "%DOCFILE%"                 
       ]
     }
@@ -26,18 +25,6 @@
       ]
     }
   ],
-
-  // --- Compilar ao salvar ---
-  "latex-workshop.latex.autoBuild.run": "onSave",
-
   // --- Visualização interna de PDF ---
   "latex-workshop.view.pdf.viewer": "tab",
-
-  // --- Limpeza de arquivos auxiliares ---
-  "latex-workshop.latex.clean.enabled": true,
-  "latex-workshop.latex.clean.fileTypes": [
-    ".aux", ".bbl", ".blg", ".idx", ".ind", ".lof", ".lot", ".out",
-    ".toc", ".acn", ".acr", ".alg", ".glg", ".glo", ".gls", ".ist",
-    ".fls", ".log", ".fdb_latexmk"
-  ]
 }
