@@ -1,9 +1,8 @@
-% Este arquivo conterá a seção de Fundamentação Teórica ou parte dela.
 % A subseção "Paralelismo em Computação" começa aqui.
 
 \subsecao{Paralelismo em Computação}
 
-CCCCCCCCCCCC Advancements in semiconductor technology have historically driven computational power growth. For decades, the performance of single-core processors followed the trend predicted by Moore's Law, which forecast the doubling of transistors on a chip every eighteen months. However, in the mid-2000s, the hardware industry encountered significant physical barriers, such as excessive power consumption and challenges in heat dissipation, which limited the increase in processor clock frequency. The response to these technological limitations was a change in processor design: instead of focusing on making a single core faster, the emphasis shifted to integrating multiple processing cores onto a single chip. Thus emerged multi-core processors, which became the dominant architecture in modern computers. This transition opened up new possibilities for performance enhancement; however, to take advantage of the performance gains offered by multi-core processors, programs must be intentionally developed or adapted to execute tasks in parallel. \cite{Pacheco2011}.
+Advancements in semiconductor technology have historically driven computational power growth. For decades, the performance of single-core processors followed the trend predicted by Moore's Law, which forecast the doubling of transistors on a chip every eighteen months. However, in the mid-2000s, the hardware industry encountered significant physical barriers, such as excessive power consumption and challenges in heat dissipation, which limited the increase in processor clock frequency. The response to these technological limitations was a change in processor design: instead of focusing on making a single core faster, the emphasis shifted to integrating multiple processing cores onto a single chip. Thus emerged multi-core processors, which became the dominant architecture in modern computers. This transition opened up new possibilities for performance enhancement; however, to take advantage of the performance gains offered by multi-core processors, programs must be intentionally developed or adapted to execute tasks in parallel. \cite{Pacheco2011}.
 
 \subsubsecao{Fundamentals of Parallelism}
 
@@ -93,7 +92,7 @@ A system is considered scalable if the efficiency remains above a certain reason
 
 % ... (Conteúdo da subseção "Paralelismo em Computação" termina aqui) ...
 
-% Conteúdo da subseção "Tries (Prefix Trees)"
+% Conteúdo da subseção "Tries (Prefix Trees)" com formatação matemática
 
 \subsecao{Tries (Prefix Trees)}
 
@@ -103,9 +102,9 @@ This section elucidates the Trie data structure, detailing its defining properti
 
 A Trie---also known as a prefix tree---is a specialized tree-like data structure optimized for the efficient storage and retrieval of a dynamic set of strings. Edward Fredkin introduced the term "trie" in 1960, highlighting its primary application in information retrieval \cite{Fredkin1960, Knuth1998}.
 
-Tries store strings by organizing nodes so that each path from the root to a node represents a unique prefix. In a standard R-way trie, each node can branch to R children, where R denotes the size of the character alphabet. The existence of a parent-child edge highlights two key aspects of tries:
+Tries store strings by organizing nodes so that each path from the root to a node represents a unique prefix. In a standard $R$-way trie, each node can branch to $R$ children, where $R$ denotes the size of the character alphabet. The existence of a parent-child edge highlights two key aspects of tries:
 \begin{itemize}
-    \item The edge's position (index) within the parent node's array of R possible child links directly corresponds to a unique character in the alphabet. For instance, index 0 might correspond to 'a', index 1 to 'b', and so on, according to a predefined mapping.
+    \item The edge's position (index) within the parent node's array of $R$ possible child links directly corresponds to a unique character in the alphabet. For instance, index 0 might correspond to 'a', index 1 to 'b', and so on, according to a predefined mapping.
     \item The character associated with this edge extends the prefix represented by the parent; this implies that at least one word (or key) in the trie contains this character sequence.
 \end{itemize}
 To signify that such a prefix also constitutes a complete key present in the trie, the node reached at the end of this path is typically marked by storing an associated non-null value or a boolean flag. The characters themselves are implicitly encoded by the trie's structure rather than being explicitly stored within each node.
@@ -124,16 +123,70 @@ Tries support several primary operations, including search, insertion, and delet
 
 Tries provide distinct advantages for operations on string collections.
 
-\textbf{Time Complexity}: A primary advantage is that the time required for search and insertion operations depends primarily on the length of the key (L), not on the total number (N) of keys stored. Specifically, these operations typically require examining a number of nodes proportional to L. Sedgewick \& Wayne (2011) state that the number of array accesses (node visits) is at most L+1 \cite{SedgewickWayne2011}. This O(L) performance makes tries highly efficient for prefix-based searches (e.g., retrieving all keys starting with a given prefix) and ensures that search performance does not substantially degrade as the dataset size increases.
+\textbf{Time Complexity}: A primary advantage is that the time required for search and insertion operations depends primarily on the length of the key ($L$), not on the total number ($N$) of keys stored. Specifically, these operations typically require examining a number of nodes proportional to $L$. Sedgewick \& Wayne (2011) state that the number of array accesses (node visits) is at most $L+1$ \cite{SedgewickWayne2011}. This $O(L)$ performance makes tries highly efficient for prefix-based searches (e.g., retrieving all keys starting with a given prefix) and ensures that search performance does not substantially degrade as the dataset size increases.
 
 \textbf{Prefix Sharing}: When stored strings share common prefixes, tries inherently exploit this by having those strings share the initial path from the root. This sharing can lead to significant space savings compared to storing each string independently, particularly if there is substantial prefix overlap among keys \cite{Fredkin1960}.
 
 \subsubsecao{Space Complexity Considerations}
 
-While prefix sharing can save space, the overall space complexity of R-way tries requires careful consideration. Each node in an R-way trie conceptually provides R potential links. If the alphabet size R is large (e.g., for Unicode) and the actual branching factor at most nodes is low (a sparse trie), allocating space for all R links per node can lead to considerable memory consumption due to numerous unused (null) links \cite{Knuth1998, SedgewickWayne2011}.
+While prefix sharing can save space, the overall space complexity of $R$-way tries requires careful consideration. Each node in an $R$-way trie conceptually provides $R$ potential links. If the alphabet size $R$ is large (e.g., for Unicode) and the actual branching factor at most nodes is low (a sparse trie), allocating space for all $R$ links per node can lead to considerable memory consumption due to numerous unused (null) links \cite{Knuth1998, SedgewickWayne2011}.
 
 \subsubsecao{Foundational Role in String Processing}
 
 The trie data structure is a cornerstone for numerous advanced string processing algorithms. Critically for this work, the Aho-Corasick algorithm, engineered for the efficient, simultaneous matching of multiple patterns within a text, employs a trie---constructed from the set of patterns (the dictionary)---as its initial structural framework. This pattern trie is subsequently augmented with specialized "failure links" to form a finite automaton, enabling text processing in time linear to the text's length \cite{AhoCorasick1975}. A thorough grasp of trie principles is thus indispensable for developing and analyzing the Aho-Corasick algorithm.
 
 % Fim da subseção "Tries".
+
+% Conteúdo da seção/subseção "Pattern Matching"
+
+\subsecao{Pattern Matching}
+
+This section introduces the fundamental problem of pattern matching within strings, explores key algorithmic approaches to its solution, and underscores its significance across various computational domains. This foundational discussion provides the essential context for understanding advanced multi-pattern matching algorithms, such as the Aho-Corasick algorithm.
+
+\subsubsecao{The Pattern Matching Problem}
+
+Pattern matching involves identifying all instances where a given pattern $P$, which is a string of length $M$, appears as a contiguous substring within a larger text $T$, which has a length of $N$. Beyond simply finding the first match, the problem often extends to locating all occurrences, enumerating them, or extracting surrounding contextual information for each match \cite{SedgewickWayne2011}.
+
+\subsubsecao{Importance and Applications}
+
+Pattern matching stands as a cornerstone problem in computer science with diverse applications. In general information processing, it underpins the functionality of text editors and web search engines for keyword searches. The field of computational biology extensively utilizes pattern matching for analyzing genetic sequences \cite{SedgewickWayne2011}.
+
+Furthermore, in the field of information security, pattern matching is crucial: Network Intrusion Detection Systems (NIDS) utilize it to identify malicious signatures in network traffic. Tools like YARA, for instance, define rules based on textual or binary patterns to classify and identify malware (\url{https://virustotal.github.io/yara/}). Later in this work, we’ll explore the role of pattern matching for NIDS in greater detail.
+
+\subsubsecao{Pattern Matching Algorithms}
+
+Pattern matching algorithms are generally categorized based on the number of patterns they process and the exactness of the match. This research focuses on Exact Matching, where the pattern must correspond precisely to a segment of the text. A key distinction for this study lies between algorithms designed for Single-Pattern Matching and those optimized for Multi-Pattern Matching, where the objective is to identify all occurrences of any pattern from a predetermined set of patterns within a given text \cite{AhoCorasick1975, Gusfield1997}.
+
+\subsubsecao{Fundamental Algorithms for Exact Single-Pattern Matching}
+
+\textbf{The Naive Algorithm}
+
+The naive or brute-force algorithm represents the most straightforward method for exact pattern matching. Its operation involves iteratively aligning the pattern $P$ with the text $T$ at every possible starting position $i$ (from 0 to $N-M$). For each alignment, $P$ is compared character by character, from left to right, against the corresponding substring. If all characters match, an occurrence is reported \cite{Gusfield1997}.
+
+Following this comparison (whether a match or a mismatch), the algorithm shifts $P$ one position to the right relative to $T$ and proceeds to the next alignment. Despite its simplicity, Knuth, Morris, and Pratt (1977) state that this method can be highly inefficient \cite{KnuthMorrisPratt1977}. Its worst-case time complexity is $O(M \cdot N)$ character comparisons. This occurs, for example, when searching for a pattern like $P = a^n b$ within a text $T = a^{2n} b$, where many partial matches occur.
+
+\textbf{Optimized Approaches via Pattern Preprocessing}
+
+To address the limitations of the naive algorithm, more advanced pattern matching algorithms include a preprocessing phase for the pattern $P$. This phase extracts structural information about $P$ that is then utilized during the search, enabling larger shifts of the pattern relative to the text and thus reducing the total number of character comparisons.
+
+\textbf{Knuth-Morris-Pratt (KMP) Algorithm}: The KMP algorithm \cite{KnuthMorrisPratt1977} efficiently resolves the pattern matching problem with an optimal worst-case time complexity of $O(N + M)$. Unlike the naive approach, KMP avoids re-checking characters that have already been matched. To achieve this, KMP first preprocesses the pattern $P$ by constructing a special array known as the failure array (or prefix array), typically denoted by $p[1..M]$. This array indicates the length of the longest prefix that is also a suffix for each prefix of $P$. With this information, when a mismatch occurs during the search, the algorithm utilizes the failure array to determine how far the pattern should shift to the right, bypassing unnecessary comparisons and preventing redundant checks.
+
+\textbf{Boyer-Moore (BM) Algorithm}: The Boyer-Moore (BM) algorithm \cite{BoyerMoore1977} is widely recognized for its excellent practical performance, often outperforming linear-time methods in typical cases. Unlike the KMP algorithm, Boyer-Moore typically compares characters starting from the end of the pattern and moves backward.
+Its efficiency primarily stems from two rules (or heuristics):
+\begin{itemize}
+    \item \textbf{Bad Character Rule}: When a mismatch occurs, this rule uses the character from the text that caused the mismatch to determine how far the pattern can safely shift. The algorithm shifts the pattern to align this mismatched text character with its last occurrence in the pattern or moves completely past the mismatched character if it does not appear in the pattern.
+    \item \textbf{Good Suffix Rule}: When a mismatch happens after matching one or more characters from the end of the pattern, this rule uses the matched suffix to decide how far to shift the pattern. It searches for another occurrence of the matched suffix within the pattern, ensuring that no previously matched characters are unnecessarily compared again.
+\end{itemize}
+These two rules combined enable the Boyer-Moore algorithm to skip larger portions of the text, significantly reducing the total number of comparisons.
+
+\subsubsecao{Limitations of Iterating Single-Pattern Algorithms}
+
+When the task involves searching for multiple patterns simultaneously from a set $K = \{P_1, P_2, \dots, P_k\}$ within a text $T$, simply applying a single-pattern matching algorithm for each $P_i$ independently proves highly inefficient. This "iterative" approach requires scanning the text multiple times, resulting in a total time complexity that can be approximately $O(k \cdot (N+M_{\text{avg}}))$ or worse, where $M_{\text{avg}}$ is the average pattern length \cite{AhoCorasick1975}. This highlights the need for more specialized solutions.
+
+\subsubsecao{The Need for Specialized Multi-Pattern Algorithms}
+
+To efficiently handle applications that require simultaneous searches for a large number of patterns, specialized algorithms are essential. These methods usually preprocess the entire set of patterns to create a unified data structure, which enables a single, efficient pass over the text to identify all occurrences of any pattern within the set.
+
+The theoretical framework of \textit{finite automata} provides a robust and elegant solution for this problem. By constructing a single \textit{finite automaton} (FA) that can recognize all patterns in a given set, the text can be processed in a single continuous scan. Each character read from the text triggers a \textit{state transition} within the FA. When the FA reaches an \textit{accepting state}---a state explicitly designed to indicate the successful recognition of one or more patterns---the algorithm reports an occurrence. Algorithms like the Aho-Corasick algorithm exemplify this approach; they automate the construction of such a \textit{pattern-matching machine}, typically based on a trie structure augmented with specialized \textit{failure transitions} \cite{AhoCorasick1975}. This automaton-based paradigm forms the critical foundation for efficiently solving multi-pattern matching problems.
+
+% Fim da seção/subseção "Pattern Matching".
