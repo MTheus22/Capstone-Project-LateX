@@ -190,3 +190,64 @@ To efficiently handle applications that require simultaneous searches for a larg
 The theoretical framework of \textit{finite automata} provides a robust and elegant solution for this problem. By constructing a single \textit{finite automaton} (FA) that can recognize all patterns in a given set, the text can be processed in a single continuous scan. Each character read from the text triggers a \textit{state transition} within the FA. When the FA reaches an \textit{accepting state}---a state explicitly designed to indicate the successful recognition of one or more patterns---the algorithm reports an occurrence. Algorithms like the Aho-Corasick algorithm exemplify this approach; they automate the construction of such a \textit{pattern-matching machine}, typically based on a trie structure augmented with specialized \textit{failure transitions} \cite{AhoCorasick1975}. This automaton-based paradigm forms the critical foundation for efficiently solving multi-pattern matching problems.
 
 % Fim da seção/subseção "Pattern Matching".
+
+% Conteúdo da seção/subseção "The Aho-Corasick Algorithm"
+
+\subsecao{The Aho-Corasick Algorithm}
+
+This section provides a comprehensive examination of the Aho-Corasick algorithm, a highly efficient string-matching method designed to locate all occurrences of multiple patterns (keywords) within a given text. The algorithm leverages foundational concepts from \textit{automata theory} and string data structures, particularly tries, to offer an optimized solution for the multi-pattern search problem. It achieves \textit{linear time complexity} with respect to the combined length of the text and the number of matches found \cite{AhoCorasick1975}.
+
+\subsubsecao{Context}
+
+The task of concurrently identifying all instances of a large collection of patterns within a text poses a significant computational challenge. A naive approach, which involves iteratively applying single-pattern matching algorithms (such as KMP or BM) for each pattern, is inefficient. This method necessitates repeated scans of the text, leading to a worst-case time complexity of approximately $O(k \cdot N)$ where $k$ is the number of patterns and $N$ is the text length, rendering it impractical for large pattern sets or long texts.
+
+The Aho-Corasick algorithm addresses this limitation by constructing a single \textit{finite automaton} from the entire set of patterns. This automaton processes the input text in a single pass to detect all matches. The algorithm effectively combines the \textit{state-transition} efficiency of finite automata with the prefix-sharing advantages of tries. It generalizes the "\textit{failure function}" concept from the Knuth-Morris-Pratt algorithm to the multi-pattern domain, enabling efficient handling of mismatches. While the basic Aho-Corasick machine utilizes \textit{goto transitions} and \textit{failure back-edges} (making it quasi-deterministic), a fully deterministic version can also be pre-computed if necessary, though the standard approach with \textit{failure links} is often preferred for its construction efficiency.
+
+\subsubsecao{Algorithm Components and Construction}
+
+The Aho-Corasick algorithm operates in two main phases: a preprocessing (construction) phase that builds the \textit{pattern-matching automaton}, and a matching (search) phase. Three key functions, constructed sequentially define the automaton:
+
+\textbf{The Keyword Trie}
+
+The initial stage involves building a \textit{keyword trie}, which is a standard trie constructed from the given set of patterns $K = \{P_1, P_2, \dots, P_k\}$. Each node in this trie represents a state in the automaton, and each edge corresponds to a character transition. A path from the root to any state $s$ spells out a string that is a prefix of one or more keywords. This structure is formally the \textit{goto function}, $\operatorname{g}(s, a)$, which for a state $s$ and character $a$, returns the next state $s'$ or indicates failure if no such transition exists. The root state is typically completed with transitions (often self-loops or transitions to a dedicated "fail" state if not leading to a pattern prefix) for all alphabet characters not starting any keyword, ensuring the automaton always advances one text character per cycle \cite{AhoCorasick1975, SedgewickWayne2011}.
+
+\textbf{The Failure Function}
+
+The \textit{failure function}, $\operatorname{f}(s)$, is central to the algorithm's efficiency. For any state $s$ (other than the root), $\operatorname{f}(s)$ points to the state $s'$ such that the string labeling the path from the root to $s'$ is the longest proper suffix of the string labeling the path from the root to $s$ that is also a prefix of some keyword in $K$. This function enables the automaton, upon a mismatch at state $s$ with the current text character, to transition to $\operatorname{f}(s)$ and re-attempt a match without rescanning text characters. The failure function is typically computed level-by-level (breadth-first search order) after the goto function is complete, leveraging already computed failure values for parent states.
+
+\textbf{The Output Function}
+
+The \textit{output function}, $\operatorname{output}(s)$, identifies all keywords that end at state $s$. For a given state $s$, $\operatorname{output}(s)$ is the set of all patterns $P_i$ in $K$ such that the string corresponding to the path to $s$ is $P_i$. To ensure all matches are reported, including those that are suffixes of other patterns, $\operatorname{output}(s)$ is augmented during the failure function computation: if $\operatorname{f}(s) = s'$, then $\operatorname{output}(s)$ is set to $\operatorname{output}(s) \cup \operatorname{output}(s')$. This incremental union ensures that reaching state $s$ correctly identifies all patterns ending at $s$ or at states reachable from $s$ via \textit{failure links}.
+
+\textbf{Matching Phase}
+
+Once the Aho-Corasick automaton is constructed, it processes the input text $T$ character by character in a single pass. Starting at the root (initial state), for each text character $a_i$:
+\begin{enumerate}
+    \item The automaton attempts to transition from the $\textit{current\_state}$ using $\operatorname{g}(\textit{current\_state}, a_i)$.
+    \item If this transition leads to a state $s'$, the $\textit{current\_state}$ becomes $s'$.
+    \item If $\operatorname{g}(\textit{current\_state}, a_i)$ indicates failure, the $\textit{current\_state}$ is updated to $\operatorname{f}(\textit{current\_state})$, and step 1 is repeated with the same text character $a_i$ until a valid goto transition is found or the root state is reached (from which a goto transition will always exist for $a_i$, possibly to the root itself if $a_i$ does not start any pattern).
+    \item After each successful transition to a new state $s'$, the algorithm consults $\operatorname{output}(s')$ and reports all keywords found, along with their ending position $i$ in the text.
+\end{enumerate}
+The number of state transitions (goto and failure combined) during the matching phase on a text of length $N$ is bounded by $2N$.
+
+\textbf{Time and Space Complexity}
+
+The Aho-Corasick algorithm exhibits optimal \textit{linear time complexity} for multi-pattern matching \cite{AhoCorasick1975, Gusfield1997}.
+
+\begin{itemize}
+    \item \textbf{Time Complexity}
+    \begin{itemize}
+        \item Construction Phase (Preprocessing): The construction of the goto, failure, and output functions takes $O(L)$ time, where $L$ is the total length of all keywords in the pattern set. Suppose a dense representation for root transitions is used (e.g., an array indexed by alphabet characters). In that case, an additional $O(|\Sigma|)$ term for alphabet size $|\Sigma|$ may be incurred for initializing these root transitions. Thus, construction is generally $O(L + |\Sigma|)$.
+        \item Matching Phase (Search): Processing a text of length $N$ involves at most $2N$ state transitions. Reporting matches takes additional time proportional to the total number of occurrences, $O_k$. Therefore, the search phase is $O(N + O_k)$.
+    \end{itemize}
+    \item \textbf{Space Complexity}
+    \begin{itemize}
+        \item The space required to store the automaton (goto function, failure function, and output function) is proportional to $O(L + |\Sigma|)$. The goto function can be stored as a trie, requiring space proportional to $L$. The failure function requires $O(L)$ space (one pointer per state). The output function, in its most general form, could also require more space if many states have many outputs, but efficient representations exist.
+    \end{itemize}
+\end{itemize}
+
+\subsubsecao{Applications and Relevance}
+
+The Aho-Corasick algorithm is extensively used in applications demanding high-performance multi-pattern matching. Its single-pass processing capability makes it ideal for systems like Network Intrusion Detection Systems (NIDS), which scan network traffic for thousands of known malicious signatures. In cybersecurity, it is a core component of anti-malware tools and systems like YARA, where it efficiently matches literal string components extracted from more complex rules. Other applications include large-scale text analysis, bioinformatics (searching for multiple motifs in DNA or protein sequences), and spam filtering. It should be noted that while Aho-Corasick excels at exact literal string matching, systems like NIDS often layer additional capabilities (e.g., regular expression matching for parts of signatures) on top of or in conjunction with Aho-Corasick engines to handle more complex pattern definitions, which can affect overall performance characteristics. The Aho-Corasick algorithm remains a theoretically important and practically impactful example of applying \textit{finite automata} theory to solve complex string processing problems.
+
+% Fim da seção/subseção "The Aho-Corasick Algorithm".
